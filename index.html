@@ -1,0 +1,806 @@
+<div class="custom-fee-container">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&amp;display=swap" rel="stylesheet">
+
+  <style>
+
+    .custom-fee-container {
+
+      font-family: 'Poppins', sans-serif;
+
+      background-color: #ffffff;
+
+      color: #333;
+
+      padding: 0px;
+
+      box-sizing: border-box;
+
+    }
+
+    .custom-fee-container .heading-container {
+
+      margin-bottom: 0px;
+
+    }
+
+    .custom-fee-container h1 {
+
+      font-size: 36px;
+
+      font-weight: 700;
+
+      margin: 0;
+
+      color: #222;
+
+    }
+
+    .custom-fee-container .accordion-container {
+
+      max-width: 100%;
+
+      margin: 0 auto;
+
+    }
+
+    .custom-fee-container .accordion {
+
+      background-color: #f1f1f1;
+
+      cursor: pointer;
+
+      padding: 20px 60px 20px 80px;
+
+      width: 100%;
+
+      border: none;
+
+      text-align: left;
+
+      outline: none;
+
+      font-size: 22px;
+
+      position: relative;
+
+      min-height: 70px;
+
+      display: flex;
+
+      align-items: center;
+
+      color: #333;
+
+    }
+
+    .custom-fee-container .accordion:hover {
+
+      background-color: #ddd;
+
+    }
+
+    .custom-fee-container .accordion img.icon {
+
+      position: absolute;
+
+      left: 10px;
+
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      width: 58px;
+
+      height: 58px;
+
+    }
+
+    .custom-fee-container .accordion:after {
+
+      content: "+";
+
+      font-size: 28px;
+
+      color: #333;
+
+      position: absolute;
+
+      right: 20px;
+
+    }
+
+    .custom-fee-container .accordion.active:after {
+
+      content: "-";
+
+    }
+
+    .custom-fee-container .accordion-section.empty {
+
+      display: none;
+
+    }
+
+    .custom-fee-container .panel {
+
+      padding: 10px 0 20px 0;
+
+      background-color: white;
+
+      display: none;
+
+      font-size: 14px;
+
+      line-height: 1.6;
+
+    }
+
+    .custom-fee-container .panel.open {
+
+      display: block;
+
+    }
+
+    .custom-fee-container .fee-status {
+
+      padding: 20px;
+
+      font-size: 15px;
+
+      color: #666;
+
+      text-align: center;
+
+      display: none;
+
+    }
+
+    .custom-fee-container .fee-status.visible {
+
+      display: block;
+
+    }
+
+    .custom-fee-container .fee-status.error {
+
+      color: #c0392b;
+
+    }
+
+    .custom-fee-container table.fee-table {
+
+      width: 100%;
+
+      border-collapse: collapse;
+
+      border: 1px solid #ccc;
+
+      font-size: 14px;
+
+      margin-top: 10px;
+
+    }
+
+    .custom-fee-container table.fee-table th,
+
+    .custom-fee-container table.fee-table td {
+
+      border: 1px solid #ccc;
+
+      padding: 8px;
+
+      text-align: left;
+
+    }
+
+    .custom-fee-container table.fee-table th {
+
+      background-color: #f9f9f9;
+
+      font-weight: 600;
+
+    }
+
+    .custom-fee-container .fee-table th:nth-child(1),
+
+    .custom-fee-container .fee-table td:nth-child(1) { width: 35%; }
+
+    .custom-fee-container .fee-table th:nth-child(2),
+
+    .custom-fee-container .fee-table td:nth-child(2) { width: 20%; }
+
+    .custom-fee-container .fee-table th:nth-child(3),
+
+    .custom-fee-container .fee-table td:nth-child(3) { width: 20%; }
+
+    .custom-fee-container .fee-table th:nth-child(4),
+
+    .custom-fee-container .fee-table td:nth-child(4) { width: 25%; }
+
+    @media (max-width: 650px) {
+
+      .custom-fee-container .accordion {
+
+        font-size: 13px;
+
+        padding: 20px 60px 20px 60px;
+
+      }
+
+      .custom-fee-container .accordion img.icon {
+
+        width: 40px;
+
+        height: 40px;
+
+        left: 10px;
+
+      }
+
+      .custom-fee-container .accordion:after {
+
+        font-size: 18px;
+
+        right: 16px;
+
+      }
+
+      .custom-fee-container .panel {
+
+        font-size: 13px;
+
+      }
+
+      .custom-fee-container .fee-table th,
+
+      .custom-fee-container .fee-table td {
+
+        font-size: 10px;
+
+        padding: 6px;
+
+      }
+
+      .custom-fee-container .fee-table {
+
+        display: block;
+
+        overflow-x: auto;
+
+        -webkit-overflow-scrolling: touch;
+
+      }
+
+    }
+
+  </style>
+
+
+
+
+  <div class="heading-container">
+
+
+
+  <div class="fee-status" id="fee-status">Loading pricing information…</div>
+
+
+
+
+  <div class="accordion-container" id="fee-accordion">
+
+
+
+
+    <div class="accordion-section" id="section-applicant">
+
+      <button class="accordion active">
+
+        <img class="icon" src="https://static.wixstatic.com/media/4f7dd4_99046d149a064c21bff0ed410d15c816~mv2.png" alt="Applicant Icon">
+
+        Applicant Expenses
+
+      </button>
+
+      <div class="panel open">
+
+        <table class="fee-table" id="table1">
+
+          <thead><tr><th>Charge Description</th><th>Charge Type</th><th>Charge Event</th><th>Actual/Average Amount</th></tr></thead>
+
+          <tbody></tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+
+
+    <div class="accordion-section" id="section-essentials">
+
+      <button class="accordion active">
+
+        <img class="icon" src="https://static.wixstatic.com/media/4f7dd4_12e4559005a547368568c0b8903cd994~mv2.png" alt="Essentials Icon">
+
+        Essentials (Required)
+
+      </button>
+
+      <div class="panel open">
+
+        <table class="fee-table" id="table2">
+
+          <thead><tr><th>Charge Description</th><th>Charge Type</th><th>Charge Event</th><th>Actual/Average Amount</th></tr></thead>
+
+          <tbody></tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+
+
+    <div class="accordion-section" id="section-addons">
+
+      <button class="accordion active">
+
+        <img class="icon" src="https://static.wixstatic.com/media/4f7dd4_8a97cffd1c364f29b05db26e21313467~mv2.png" alt="Add-Ons Icon">
+
+        Add-Ons (Optional)
+
+      </button>
+
+      <div class="panel open">
+
+        <table class="fee-table" id="table3">
+
+          <thead><tr><th>Charge Description</th><th>Charge Type</th><th>Charge Event</th><th>Actual/Average Amount</th></tr></thead>
+
+          <tbody></tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+
+
+    <div class="accordion-section" id="section-situational">
+
+      <button class="accordion active">
+
+        <img class="icon" src="https://static.wixstatic.com/media/4f7dd4_9f3390bd094c44dda8194cfbf4220fb9~mv2.png" alt="Situational Icon">
+
+        Situational Fees
+
+      </button>
+
+      <div class="panel open">
+
+        <table class="fee-table" id="table4">
+
+          <thead><tr><th>Charge Description</th><th>Charge Type</th><th>Charge Event</th><th>Actual/Average Amount</th></tr></thead>
+
+          <tbody></tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+
+
+  </div>
+
+</div>
+
+
+
+
+<script>
+
+(function () {
+
+
+
+
+  /* ============================================================
+
+     CHANGE THESE TWO LINES PER COMMUNITY
+
+  ============================================================ */
+
+  var ASSET_ID   = "30833";
+
+  var WORKER_URL = "https://pricingtables.bshives.workers.dev";
+
+
+
+
+  /* ============================================================
+
+     HELPERS
+
+  ============================================================ */
+
+  function formatFrequency(freq) {
+
+    if (!freq)               return "\u2014";
+
+    if (freq === "one_time") return "One Time";
+
+    if (freq === "monthly")  return "Fixed Rate";
+
+    return "Varies by Usage";
+
+  }
+
+
+
+
+  function formatEvent(item) {
+
+    if (item.is_situational) return "Situational";
+
+    if (item.is_required)    return "Required";
+
+    return "Optional";
+
+  }
+
+
+
+
+  function formatAmount(item) {
+
+    switch (item.value_type) {
+
+      case "range":
+
+        return "$" + parseFloat(item.min_amount).toFixed(2) + " \u2013 $" + parseFloat(item.max_amount).toFixed(2);
+
+      case "amount":
+
+        return "$" + parseFloat(item.amount).toFixed(2);
+
+      case "percentage":
+
+        return item.percentage_amount || "\u2014";
+
+      case "text":
+
+        return item.text_amount || "Varies";
+
+      default:
+
+        return "\u2014";
+
+    }
+
+  }
+
+
+
+
+  function getCategory(item) {
+
+    if (item.is_situational)                  return "situational";
+
+    if (item.due_at_timing === "application") return "applicant";
+
+    if (item.is_required)                     return "essentials";
+
+    return "addons";
+
+  }
+
+
+
+
+  function escHtml(str) {
+
+    if (str == null) return "";
+
+    return String(str)
+
+      .replace(/&/g, "&amp;")
+
+      .replace(/</g, "&lt;")
+
+      .replace(/>/g, "&gt;")
+
+      .replace(/"/g, "&quot;");
+
+  }
+
+
+
+
+  /* ============================================================
+
+     FETCH
+
+  ============================================================ */
+
+  function fetchFees() {
+
+    return fetch(WORKER_URL + "?asset=" + ASSET_ID)
+
+      .then(function (res) {
+
+        if (!res.ok) throw new Error("Worker returned HTTP " + res.status);
+
+        return res.json();
+
+      })
+
+      .then(function (json) {
+
+        if (!json.data || !Array.isArray(json.data)) throw new Error("Unexpected API response");
+
+        return json.data;
+
+      });
+
+  }
+
+
+
+
+  /* ============================================================
+
+     RENDER
+
+  ============================================================ */
+
+  function populateTable(container, tableId, rows) {
+
+    var tbody = container.querySelector("#" + tableId + " tbody");
+
+    if (!tbody) return;
+
+    tbody.innerHTML = "";
+
+
+
+
+    if (rows.length === 0) {
+
+      var section = container.querySelector("#" + tableId).closest(".accordion-section");
+
+      if (section) section.classList.add("empty");
+
+      return;
+
+    }
+
+
+
+
+    rows.forEach(function (item) {
+
+      var tr = document.createElement("tr");
+
+      tr.innerHTML =
+
+        "<td>" + escHtml(item.description) + "</td>" +
+
+        "<td>" + escHtml(item.chargeType)  + "</td>" +
+
+        "<td>" + escHtml(item.event)       + "</td>" +
+
+        "<td>" + escHtml(item.amount)      + "</td>";
+
+      tbody.appendChild(tr);
+
+    });
+
+  }
+
+
+
+
+  function showStatus(container, msg, isError) {
+
+    var el = container.querySelector("#fee-status");
+
+    if (!el) return;
+
+    el.textContent = msg;
+
+    el.className = "fee-status visible" + (isError ? " error" : "");
+
+  }
+
+
+
+
+  function hideStatus(container) {
+
+    var el = container.querySelector("#fee-status");
+
+    if (el) el.className = "fee-status";
+
+  }
+
+
+
+
+  function bindAccordions(container) {
+
+    container.querySelectorAll(".accordion").forEach(function (btn) {
+
+      btn.addEventListener("click", function () {
+
+        btn.classList.toggle("active");
+
+        var panel = btn.nextElementSibling;
+
+        if (panel) panel.classList.toggle("open");
+
+      });
+
+    });
+
+  }
+
+
+
+
+  /* ============================================================
+
+     INIT — waits up to 5s for the container to appear in the DOM
+
+     This handles Entrata injecting HTML asynchronously
+
+  ============================================================ */
+
+  function init() {
+
+    var attempts = 0;
+
+    var maxAttempts = 50; // 50 x 100ms = 5 seconds
+
+
+
+
+    function tryRun() {
+
+      var container = document.querySelector(".custom-fee-container");
+
+
+
+
+      // Make sure container AND at least one tbody exist before proceeding
+
+      if (!container || !container.querySelector("#table1 tbody")) {
+
+        attempts++;
+
+        if (attempts < maxAttempts) {
+
+          setTimeout(tryRun, 100);
+
+        }
+
+        return;
+
+      }
+
+
+
+
+      showStatus(container, "Loading pricing information\u2026", false);
+
+
+
+
+      fetchFees()
+
+        .then(function (raw) {
+
+          var enabled = raw.filter(function (item) { return item.is_enabled; });
+
+          var buckets = { applicant: [], essentials: [], addons: [], situational: [] };
+
+
+
+
+          enabled.forEach(function (item) {
+
+            var cat = getCategory(item);
+
+            buckets[cat].push({
+
+              description: item.label,
+
+              chargeType:  formatFrequency(item.frequency),
+
+              event:       formatEvent(item),
+
+              amount:      formatAmount(item),
+
+            });
+
+          });
+
+
+
+
+          populateTable(container, "table1", buckets.applicant);
+
+          populateTable(container, "table2", buckets.essentials);
+
+          populateTable(container, "table3", buckets.addons);
+
+          populateTable(container, "table4", buckets.situational);
+
+
+
+
+          hideStatus(container);
+
+          bindAccordions(container);
+
+        })
+
+        .catch(function (err) {
+
+          console.error("Pricing load error:", err);
+
+          showStatus(container, "Pricing information is temporarily unavailable. Please check back shortly.", true);
+
+        });
+
+    }
+
+
+
+
+    tryRun();
+
+  }
+
+
+
+
+  // Start immediately — tryRun will poll until DOM is ready
+
+  init();
+
+
+
+
+})();
+
+</script>
+
+<!-- ============================================================
+     EMBED SCROLL MODE — for the jasperatvictoryridge.com iframe embed.
+     When this page is inside an iframe, it scrolls itself with its
+     scrollbar hidden. No parent-page JavaScript is needed at all.
+     Viewed directly (not in an iframe), the page is completely untouched.
+============================================================ -->
+<script>
+(function () {
+  if (window.self === window.top) return; /* only when embedded */
+
+  var s = document.createElement("style");
+  s.textContent =
+    "html, body { margin: 0; }" +
+    "html { overflow-y: scroll; overflow-x: hidden; scrollbar-width: none; -ms-overflow-style: none; }" +
+    "html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; width: 0; height: 0; }";
+  (document.head || document.documentElement).appendChild(s);
+})();
+</script>
